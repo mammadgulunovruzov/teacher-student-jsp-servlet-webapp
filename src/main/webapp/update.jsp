@@ -69,6 +69,9 @@
             .setSalary(new BigDecimal(salary)));
 
 
+    response.sendRedirect("teachers");
+
+
   }
   final Teacher teacher = teacherRepository.getById(id);
 %>
