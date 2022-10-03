@@ -46,15 +46,18 @@ public class TeacherRepository extends Repository<Teacher> {
 
     }
     
-    public List<Teacher> getList(String name, String surname, BigDecimal salary) {
+    public List<Teacher> getList(String name,
+                                 String surname,
+                                 BigDecimal salary
+    ) {
 
         try (Connection connection = connect()) {            
             String sql = "select * from teacher where ";
 
-            int index=1;
+            int index=0;
             if(name!=null && name.trim().length()>0){
                 sql+="name like ? and ";
-                
+                index++;
             }
             if(surname!=null && surname.trim().length()>0){
                 sql+="surname like ?  and ";
@@ -83,7 +86,6 @@ public class TeacherRepository extends Repository<Teacher> {
             }
             if(name!=null && name.trim().length()>0){
                 statement.setString(index, "%"+name+"%");
-                index--;
             }
             
             ResultSet resultSet = statement.executeQuery();

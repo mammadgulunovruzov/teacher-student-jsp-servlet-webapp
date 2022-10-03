@@ -1,9 +1,25 @@
+<%@ page import="repository.TeacherRepository" %>
+<%@ page import="java.util.List" %>
+<%@ page import="entity.Teacher" %><%--
+  Created by IntelliJ IDEA.
+  User: user
+  Date: 9/30/2022
+  Time: 10:06 PM
+  To change this template use File | Settings | File Templates.
+--%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
     <title>Teachers</title>
     <link rel="stylesheet" href="bootstrap_style.css">
     <script src="app.js"></script>
 </head>
+<%--<%--%>
+<%--    final Object loggedIn = request.getSession().getAttribute("loggedIn");--%>
+<%--    if(loggedIn==null || ((Boolean)loggedIn)==false){--%>
+<%--        response.sendRedirect("/webapp/log_in.jsp");--%>
+<%--    }--%>
+<%--%>--%>
 <body class="text-capitalize">
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
@@ -24,36 +40,39 @@
                     <a class="nav-link" href="#">Students</a>
                 </li>
             </ul>
-            <form class="d-flex">
+            <form class="d-flex" >
                 <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                 <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+            <form class="d-flex" action="/webapp/logout.jsp">
+                <button class="btn btn-outline-success" type="submit">LOGOUT</button>
             </form>
         </div>
     </div>
 </nav>
 <h1>Teachers</h1>
 
-<form id="form" class="col-3 m-lg-3">
+<form id="form" class="col-3 m-lg-3" method="get">
     <div class="mb-3">
         <label class="form-label" for="name">
             name
         </label>
 
-        <input class="form-control" id="name" type="text"/>
+        <input class="form-control" name="name" id="name" type="text"/>
     </div>
     <div class="mb-3">
         <label class="form-label" for="surname">
             surname
         </label>
 
-        <input class="form-control" id="surname" type="text"/>
+        <input class="form-control" name="surname" id="surname" type="text"/>
     </div>
     <div class="mb-3">
         <label class="form-label" for="salary">
             salary
         </label>
 
-        <input class="form-control" id="salary" type="text"/>
+        <input class="form-control" name="salary" id="salary" type="text"/>
     </div>
 
     <button class="btn btn-primary">SEARCH</button>
@@ -73,106 +92,45 @@
         </tr>
         </thead>
         <tbody>
+
+        <%
+            final List<Teacher> list = (List<Teacher>) request.getAttribute("teachers");
+
+            for(Teacher teacher:list){
+
+
+        %>
         <tr>
             <td>
-                Sarkhan
+                <%
+                    out.print(teacher.getName());
+                %>
             </td>
             <td>
-                Rasullu
+                <%
+                    out.print(teacher.getSurname());
+                %>
             </td>
             <td>
-                3000
+                <%
+                    out.print(teacher.getSalary());
+                %>
             </td>
             <td>
-                BDU
+                <%
+                    out.print(teacher.getUniversity().getId());
+                %>
             </td>
             <td>
-                <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">Delete</button>
+                    <a href="teachers/delete?id=<%=teacher.getId()%>" class="btn btn-danger" >Delete</a>
             </td>
             <td>
+                <a href="teachers/update?<%out.print("id="+teacher.getId());%>">
                 <button class="btn btn-warning">Update</button>
+                </a>
             </td>
         </tr>
-        <tr>
-            <td>
-                Mamamdgulu
-            </td>
-            <td>
-                Novruzov
-            </td>
-            <td>
-                2500
-            </td>
-            <td>
-                Wien
-            </td>
-            <td>
-                <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">Delete</button>
-            </td>
-            <td>
-                <button class="btn btn-warning">Update</button>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Aqsin
-            </td>
-            <td>
-                Novruzov
-            </td>
-            <td>
-                2500
-            </td>
-            <td>
-                AzTu
-            </td>
-            <td>
-                <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">Delete</button>
-            </td>
-            <td>
-                <button class="btn btn-warning">Update</button>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Reshad
-            </td>
-            <td>
-                Zeynalov
-            </td>
-            <td>
-                3000
-            </td>
-            <td>
-                Azi
-            </td>
-            <td>
-                <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">Delete</button>
-            </td>
-            <td>
-                <button class="btn btn-warning">Update</button>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                Eli
-            </td>
-            <td>
-                Veliyev
-            </td>
-            <td>
-                3000
-            </td>
-            <td>
-                ATU
-            </td>
-            <td>
-                <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">Delete</button>
-            </td>
-            <td>
-                <button class="btn btn-warning">Update</button>
-            </td>
-        </tr>
+        <%}%>
         </tbody>
     </table>
 
@@ -196,3 +154,4 @@
 </div>
 </body>
 </html>
+
